@@ -14,10 +14,22 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
 
     private val viewModel: MainViewModel by viewModel()
 
-    var count: Int = 0
+    var count1: Int = 0
         set(value) {
             field = value
             viewBinding.tvCount1.text = field.toString()
+        }
+
+    var count2: Int = 0
+        set(value) {
+            field = value
+            viewBinding.tvCount2.text = field.toString()
+        }
+
+    var countSum: Int = 0
+        set(value) {
+            field = value
+            viewBinding.tvCountSum.text = field.toString()
         }
 
     override fun onInsetsReceived(top: Int, bottom: Int, hasKeyboard: Boolean) {
@@ -27,7 +39,17 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewBinding.btnClicker1.setOnClickListener {
-            count++
+            count1++
+        }
+
+        viewBinding.btnClicker2.setOnClickListener {
+            count2++
+        }
+
+        viewBinding.btnClickerSum.setOnClickListener {
+            countSum = count1 + count2
         }
     }
+
+
 }
