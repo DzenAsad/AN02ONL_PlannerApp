@@ -17,7 +17,7 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
     var count: Int = 0
         set(value) {
             field = value
-            viewBinding.tvCount.text = field.toString()
+            viewBinding.tvCount1.text = field.toString()
         }
 
     override fun onInsetsReceived(top: Int, bottom: Int, hasKeyboard: Boolean) {
@@ -26,7 +26,7 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewBinding.btnClicker.setOnClickListener {
+        viewBinding.btnClicker1.setOnClickListener {
             count++
         }
     }
