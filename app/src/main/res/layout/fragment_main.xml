@@ -7,66 +7,8 @@
     android:background="#fafafa">
 
 
-    <Button
-        android:id="@+id/btnClicker1"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:text="@string/click_first"
-        app:layout_constraintBottom_toTopOf="@+id/tvCount2"
-        app:layout_constraintEnd_toStartOf="@+id/btnClicker2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btnClicker2" />
-
-
-    <Button
-        android:id="@+id/btnClicker2"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:text="@string/click_second"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btnClickerSum"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:text="@string/sum"
-        app:layout_constraintBottom_toBottomOf="@+id/btnClicker2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnClicker2"
-        app:layout_constraintTop_toTopOf="@+id/btnClicker2" />
-
-    <TextView
-        android:id="@+id/tvCount1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="36dp"
-        app:layout_constraintEnd_toEndOf="@+id/btnClicker1"
-        app:layout_constraintStart_toStartOf="@+id/btnClicker1"
-        app:layout_constraintTop_toBottomOf="@+id/btnClicker1" />
-
-    <TextView
-        android:id="@+id/tvCount2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="36dp"
-        app:layout_constraintEnd_toEndOf="@+id/btnClicker2"
-        app:layout_constraintStart_toStartOf="@+id/btnClicker2"
-        app:layout_constraintTop_toBottomOf="@+id/btnClicker2" />
-
-    <TextView
-        android:id="@+id/tvCountSum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="36dp"
-        app:layout_constraintEnd_toEndOf="@+id/btnClickerSum"
-        app:layout_constraintStart_toStartOf="@+id/btnClickerSum"
-        app:layout_constraintTop_toBottomOf="@+id/btnClickerSum" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        tools:listitem="@layout/note_list_item"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipToPadding="false"
@@ -74,7 +16,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCount2"
-        app:spanCount="2" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:spanCount="2"
+        tools:listitem="@layout/note_list_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
