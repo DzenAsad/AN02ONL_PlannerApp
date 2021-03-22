@@ -2,4 +2,7 @@
     <string name="app_name">AN02ONL_PlannerApp</string>
     <string name="welcome">Welcome</string>
     <string name="click_me">Click Me</string>
+    <string name="click_first">Click First</string>
+    <string name="click_second">Click Second</string>
+    <string name="sum">Sum</string>
 </resources>

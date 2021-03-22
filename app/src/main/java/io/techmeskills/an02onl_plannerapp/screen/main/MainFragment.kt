@@ -14,11 +14,6 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
 
     private val viewModel: MainViewModel by viewModel()
 
-    var count: Int = 0
-        set(value) {
-            field = value
-            viewBinding.tvCount.text = field.toString()
-        }
 
     override fun onInsetsReceived(top: Int, bottom: Int, hasKeyboard: Boolean) {
 
@@ -26,8 +21,9 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewBinding.btnClicker.setOnClickListener {
-            count++
-        }
+
+        viewBinding.recyclerView.adapter = NotesRecyclerViewAdapter(viewModel.notes)
     }
+
+
 }
