@@ -3,7 +3,6 @@ package io.techmeskills.an02onl_plannerapp.screen.main
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import io.techmeskills.an02onl_plannerapp.R
