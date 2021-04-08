@@ -1,30 +1,47 @@
 package io.techmeskills.an02onl_plannerapp.screen.add
 
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import io.techmeskills.an02onl_plannerapp.R
 import io.techmeskills.an02onl_plannerapp.databinding.FragmentAddBinding
+import io.techmeskills.an02onl_plannerapp.screen.main.MainFragment
+import io.techmeskills.an02onl_plannerapp.screen.main.MainFragmentDirections
 import io.techmeskills.an02onl_plannerapp.support.NavigationFragment
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class AddFragment : NavigationFragment<FragmentAddBinding>(R.layout.fragment_add) {
 
     override val viewBinding: FragmentAddBinding by viewBinding()
     private val viewModel: AddViewModel by viewBinding()
 
+
     override fun onInsetsReceived(top: Int, bottom: Int, hasKeyboard: Boolean) {
         viewBinding.toolbar.setPadding(0, top, 0, 0)
         viewBinding.root.setPadding(0, 0, 0, bottom)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewBinding.noteText.setText(AddFragmentArgs.fromBundle(requireArguments()).text)
 
+        viewBinding.noteText.setText(AddFragmentArgs.fromBundle(requireArguments()).text)
+        val tmpDate = AddFragmentArgs.fromBundle(requireArguments()).date
+        if (tmpDate != null) {
+            val date = LocalDate.parse(tmpDate, DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+            viewBinding.noteDate.updateDate(date.year, date.monthValue, date.dayOfMonth)
+        }
         viewBinding.buttonAdd.setOnClickListener {
             if (viewBinding.noteText.text.isNotBlank()) {
                 setFragmentResult(ADD_NEW_RESULT, Bundle().apply {

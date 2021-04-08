@@ -20,7 +20,7 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
 
     override val viewBinding: FragmentMainBinding by viewBinding()
     private val viewModel: MainViewModel by viewModel()
-    private var tmpNote: Note? = null
+    private var tmpNote: Note = Note("")
 
 
     override fun onInsetsReceived(top: Int, bottom: Int, hasKeyboard: Boolean) {
@@ -41,7 +41,9 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
 
 
         viewBinding.button.setOnClickListener {
-            it.findNavController().navigate(R.id.action_mainFragment_to_addFragment)
+            tmpNote = Note("")
+            val argsBundle = MainFragmentDirections.actionMainFragmentToAddFragment(tmpNote.title, tmpNote.date)
+            it.findNavController().navigate(R.id.action_mainFragment_to_addFragment, argsBundle.arguments)
         }
 
         setFragmentResultListener(AddFragment.ADD_NEW_RESULT) { key, bundle ->
@@ -49,7 +51,7 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
             val date = bundle.getString(AddFragment.DATE)
             note?.let {
                 viewModel.addNoteToList(it, date, tmpNote)
-                tmpNote = null
+                tmpNote = Note("")
             }
         }
 
