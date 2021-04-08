@@ -2,8 +2,12 @@ package io.techmeskills.an02onl_plannerapp.screen.main
 
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
+import android.widget.Toast
+import androidx.core.view.children
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import io.techmeskills.an02onl_plannerapp.R
 import io.techmeskills.an02onl_plannerapp.databinding.FragmentMainBinding
@@ -41,6 +45,7 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
                 viewModel.addNoteToList(it, date)
             }
         }
+
 
     }
 }
