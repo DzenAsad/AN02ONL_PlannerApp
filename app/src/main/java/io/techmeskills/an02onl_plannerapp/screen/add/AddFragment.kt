@@ -7,19 +7,13 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.setFragmentResult
-import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import io.techmeskills.an02onl_plannerapp.R
 import io.techmeskills.an02onl_plannerapp.databinding.FragmentAddBinding
-import io.techmeskills.an02onl_plannerapp.screen.main.MainFragment
-import io.techmeskills.an02onl_plannerapp.screen.main.MainFragmentDirections
 import io.techmeskills.an02onl_plannerapp.support.NavigationFragment
-import java.text.DateFormat
-import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 class AddFragment : NavigationFragment<FragmentAddBinding>(R.layout.fragment_add) {
 
@@ -42,6 +36,7 @@ class AddFragment : NavigationFragment<FragmentAddBinding>(R.layout.fragment_add
             val date = LocalDate.parse(tmpDate, DateTimeFormatter.ofPattern("dd.MM.yyyy"))
             viewBinding.noteDate.updateDate(date.year, date.monthValue, date.dayOfMonth)
         }
+
         viewBinding.buttonAdd.setOnClickListener {
             if (viewBinding.noteText.text.isNotBlank()) {
                 setFragmentResult(ADD_NEW_RESULT, Bundle().apply {

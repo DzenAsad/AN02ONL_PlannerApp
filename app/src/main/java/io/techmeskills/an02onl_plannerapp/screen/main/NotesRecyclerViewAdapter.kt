@@ -11,11 +11,11 @@ class NotesRecyclerViewAdapter(
     private val items: MutableList<Note>,
     private val listener: (Note) -> Unit,
 ) :
-        RecyclerView.Adapter<NoteViewHolder>() {
+    RecyclerView.Adapter<NoteViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         return NoteViewHolder(
-                LayoutInflater.from(parent.context).inflate(R.layout.note_list_item, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.note_list_item, parent, false)
         )
     }
 
@@ -23,8 +23,10 @@ class NotesRecyclerViewAdapter(
         val item = items[position]
         holder.bind(item)
         holder.itemView.setOnClickListener { listener(item) }
-        holder.itemView.setOnLongClickListener { removeAt(position)
-            false  }
+        holder.itemView.setOnLongClickListener {
+            removeAt(position)
+            false
+        }
     }
 
     override fun getItemCount(): Int {
