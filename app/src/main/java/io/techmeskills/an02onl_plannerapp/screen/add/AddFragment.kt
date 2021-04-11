@@ -24,7 +24,6 @@ class AddFragment : NavigationFragment<FragmentAddBinding>(R.layout.fragment_add
     private val dateFormatter = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
     private val args: AddFragmentArgs by navArgs()
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         viewBinding.buttonAdd.setOnClickListener {

@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.setFragmentResultListener
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import by.kirich1409.viewbindingdelegate.viewBinding
 import io.techmeskills.an02onl_plannerapp.R
 import io.techmeskills.an02onl_plannerapp.databinding.FragmentMainBinding
@@ -15,6 +15,7 @@ import io.techmeskills.an02onl_plannerapp.support.navigateSafe
 import io.techmeskills.an02onl_plannerapp.support.setVerticalMargin
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+
 class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_main) {
 
     override val viewBinding: FragmentMainBinding by viewBinding()
@@ -22,14 +23,16 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
 
     private val adapter = NotesRecyclerViewAdapter(
         onClick = { note ->
-            findNavController().navigateSafe(MainFragmentDirections.actionMainFragmentToAddFragment(note))
+            findNavController().navigateSafe(
+                MainFragmentDirections.actionMainFragmentToAddFragment(
+                    note
+                )
+            )
         },
         onDelete = {
             viewModel.deleteNote(it)
         }
     )
-
-
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,6 +43,10 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
         viewModel.notesLiveData.observe(this.viewLifecycleOwner) {
             adapter.submitList(it)
         }
+
+        val itemTouchHelper = ItemTouchHelper(adapter.simpleItemTouchCallback)
+        itemTouchHelper.attachToRecyclerView(viewBinding.recyclerView)
+
 
         setFragmentResultListener(AddFragment.NOTE_RESULT) { key, bundle ->
             bundle.getParcelable<Note>(AddFragment.NOTE)?.let {
@@ -52,7 +59,11 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
         }
 
         viewBinding.button.setOnClickListener {
-            findNavController().navigateSafe(MainFragmentDirections.actionMainFragmentToAddFragment(null))
+            findNavController().navigateSafe(
+                MainFragmentDirections.actionMainFragmentToAddFragment(
+                    null
+                )
+            )
         }
     }
 
@@ -67,7 +78,7 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
             override fun handleOnBackPressed() {
                 findNavController().popBackStack()
             }
-    }
+        }
 }
 
 
