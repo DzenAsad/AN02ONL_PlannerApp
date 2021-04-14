@@ -3,12 +3,14 @@ package io.techmeskills.an02onl_plannerapp.screen.main
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Adapter
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import io.techmeskills.an02onl_plannerapp.R
+import kotlin.math.max
 
 
 class NotesRecyclerViewAdapter(
@@ -56,19 +58,27 @@ class NotesRecyclerViewAdapter(
             0,
             ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT or ItemTouchHelper.DOWN or ItemTouchHelper.UP
         ) {
+
+        override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
+            if (viewHolder.itemViewType == 1) return 0 //Protect add button from delete
+            return super.getMovementFlags(recyclerView, viewHolder)
+        }
+
         override fun onMove(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder,
             target: RecyclerView.ViewHolder
         ): Boolean {
-            return false
+//            recyclerView.adapter!!.notifyItemMoved(viewHolder.adapterPosition, target.adapterPosition)
+//            recyclerView.adapter!!.notifyItemRangeChanged(0, max(viewHolder.adapterPosition, target.adapterPosition), Any())
+            return true
         }
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, swipeDir: Int) {
-            //Remove swiped item from list and notify the RecyclerView
             val position = viewHolder.adapterPosition
             onDelete(getItem(position))
         }
+
     }
 
 
