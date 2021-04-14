@@ -3,13 +3,11 @@ package io.techmeskills.an02onl_plannerapp.screen.main
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
-import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import by.kirich1409.viewbindingdelegate.viewBinding
 import io.techmeskills.an02onl_plannerapp.R
 import io.techmeskills.an02onl_plannerapp.databinding.FragmentMainBinding
-import io.techmeskills.an02onl_plannerapp.screen.add.AddFragment
 import io.techmeskills.an02onl_plannerapp.support.NavigationFragment
 import io.techmeskills.an02onl_plannerapp.support.navigateSafe
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -21,23 +19,23 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
     private val viewModel: MainViewModel by viewModel()
 
     private val adapter = NotesRecyclerViewAdapter(
-        onClick = { note ->
-            findNavController().navigateSafe(
-                MainFragmentDirections.actionMainFragmentToAddFragment(
-                    note
+            onClick = { note ->
+                findNavController().navigateSafe(
+                        MainFragmentDirections.actionMainFragmentToAddFragment(
+                                note
+                        )
                 )
-            )
-        },
-        onDelete = {
-            viewModel.deleteNote(it)
-        },
-        onAdd = {
-            findNavController().navigateSafe(
-                MainFragmentDirections.actionMainFragmentToAddFragment(
-                    null
+            },
+            onDelete = {
+                viewModel.deleteNote(it)
+            },
+            onAdd = {
+                findNavController().navigateSafe(
+                        MainFragmentDirections.actionMainFragmentToAddFragment(
+                                null
+                        )
                 )
-            )
-        }
+            }
     )
 
 

@@ -8,6 +8,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import io.techmeskills.an02onl_plannerapp.R
 import io.techmeskills.an02onl_plannerapp.databinding.FragmentAddBinding
 import io.techmeskills.an02onl_plannerapp.screen.main.Note
@@ -18,7 +19,7 @@ import java.util.*
 class AddFragment : NavigationFragment<FragmentAddBinding>(R.layout.fragment_add) {
 
     override val viewBinding: FragmentAddBinding by viewBinding()
-    private val viewModel: AddViewModel by viewBinding()
+    private val viewModel: AddViewModel by viewModel()
 
     private val dateFormatter = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
     private val args: AddFragmentArgs by navArgs()
@@ -35,7 +36,7 @@ class AddFragment : NavigationFragment<FragmentAddBinding>(R.layout.fragment_add
                             date = dateFormatter.format(viewBinding.noteDate.getSelectedDate())
                         )
                     )
-                } ?: run {
+                } ?: kotlin.run {
                     viewModel.addNewNote(
                         Note(
                             title = viewBinding.noteText.text.toString(),
