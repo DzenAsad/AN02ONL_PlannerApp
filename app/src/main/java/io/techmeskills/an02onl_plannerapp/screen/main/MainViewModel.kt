@@ -25,6 +25,12 @@ class MainViewModel(private val notesDao: NotesDao) : CoroutineViewModel() {
         }
     }
 
+    fun updateNote(note: Note) {
+        launch {
+            notesDao.updateNote(note)
+        }
+    }
+
 }
 
 
