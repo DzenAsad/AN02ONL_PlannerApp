@@ -1,7 +1,5 @@
 package io.techmeskills.an02onl_plannerapp.screen.main
 
-import android.os.Parcel
-import android.os.Parcelable
 import androidx.lifecycle.MutableLiveData
 import io.techmeskills.an02onl_plannerapp.support.CoroutineViewModel
 import kotlinx.coroutines.launch
@@ -11,6 +9,7 @@ class MainViewModel : CoroutineViewModel() {
 
     val notesLiveData = MutableLiveData(
         listOf(
+            AddNote,
             Note(0, "Помыть посуду"),
             Note(1, "Забрать пальто из химчистки", "23.03.2021"),
             Note(2, "Позвонить Ибрагиму"),
@@ -21,8 +20,7 @@ class MainViewModel : CoroutineViewModel() {
             Note(7, "Выбить ковры перед весной"),
             Note(8, "Заклеить сапог жене"),
             Note(9, "Купить картошки"),
-            Note(10, "Скачать кино в самолёт", "25.03.2021"),
-            Note(-1, "Add note")
+            Note(10, "Скачать кино в самолёт", "25.03.2021")
         )
     )
 
@@ -56,38 +54,10 @@ class MainViewModel : CoroutineViewModel() {
 
 }
 
-class Note(
-    val id: Long,
-    val title: String,
-    val date: String? = null
-) : Parcelable {
-    constructor(parcel: Parcel) : this(
-        parcel.readLong(),
-        parcel.readString()!!,
-        parcel.readString()
-    ) {
-    }
 
-    override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeLong(id)
-        parcel.writeString(title)
-        parcel.writeString(date)
-    }
+object AddNote : Note(-1, "", "")
 
-    override fun describeContents(): Int {
-        return 0
-    }
 
-    companion object CREATOR : Parcelable.Creator<Note> {
-        override fun createFromParcel(parcel: Parcel): Note {
-            return Note(parcel)
-        }
-
-        override fun newArray(size: Int): Array<Note?> {
-            return arrayOfNulls(size)
-        }
-    }
-}
 
 
 

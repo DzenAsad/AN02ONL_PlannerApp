@@ -14,31 +14,41 @@ import io.techmeskills.an02onl_plannerapp.R
 class NotesRecyclerViewAdapter(
     private val onClick: (Note) -> Unit,
     private val onDelete: (Int) -> Unit,
-    private val onAdd: (Int) -> Unit
-) :
-    ListAdapter<Note, NotesRecyclerViewAdapter.NoteViewHolder>(NoteAdapterDiffCallback()) {
+    private val onAdd: () -> Unit
+) : ListAdapter<Note, RecyclerView.ViewHolder>(NoteAdapterDiffCallback()) {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): NoteViewHolder {
-        return NoteViewHolder(
+    ): RecyclerView.ViewHolder = when (viewType){
+        ADD -> AddViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.note_list_item_add, parent, false),
+            onAdd
+        )
+
+        else -> NoteViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.note_list_item, parent, false),
             ::onItemClick
         )
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return when (getItem(position)) {
+            is AddNote -> ADD
+            else -> NOTE
+        }
+    }
 
-    override fun onBindViewHolder(holder: NotesRecyclerViewAdapter.NoteViewHolder, position: Int) {
-        holder.bind(getItem(position))
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder) {
+            is NoteViewHolder -> holder.bind(getItem(position))
+            else -> (holder as AddViewHolder).bind()
+        }
     }
 
 
     private fun onItemClick(position: Int) {
-        val a = currentList.size - 1
-        if (position == a)
-            onAdd(a)
-        else onClick(getItem(position))
+        onClick(getItem(position))
     }
 
     val simpleItemTouchCallback: ItemTouchHelper.SimpleCallback = object :
@@ -81,6 +91,26 @@ class NotesRecyclerViewAdapter(
             tvTitle.text = item.title
             tvDate.text = item.date
         }
+    }
+
+    inner class AddViewHolder(
+        itemView: View,
+        private val onItemClick: () -> Unit
+    ) : RecyclerView.ViewHolder(itemView) {
+
+        init {
+            itemView.setOnClickListener {
+                onItemClick()
+            }
+        }
+
+        fun bind() = Unit
+    }
+
+
+    companion object {
+        const val ADD = 1
+        const val NOTE = 2
     }
 }
 
