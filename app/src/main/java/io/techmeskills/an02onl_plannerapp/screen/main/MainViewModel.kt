@@ -25,9 +25,10 @@ class MainViewModel(private val notesDao: NotesDao) : CoroutineViewModel() {
         }
     }
 
-    fun updateNote(note: Note) {
+    fun updateTwoNote(note1: Note, note2: Note) {
         launch {
-            notesDao.updateNote(note)
+            notesDao.updateNote(note1)
+            notesDao.updateNote(note2)
         }
     }
 

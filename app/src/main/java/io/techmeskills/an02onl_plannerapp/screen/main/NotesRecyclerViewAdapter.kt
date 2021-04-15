@@ -63,6 +63,8 @@ class NotesRecyclerViewAdapter(
             return super.getMovementFlags(recyclerView, viewHolder)
         }
 
+
+
         override fun onMove(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder,
@@ -70,10 +72,10 @@ class NotesRecyclerViewAdapter(
         ): Boolean {
             val noteFrom = getItem(viewHolder.adapterPosition)
             val noteTo = getItem(target.adapterPosition)
-            recyclerView.adapter!!.notifyItemMoved(viewHolder.adapterPosition, target.adapterPosition)
             val noteFromTo = Note(noteTo.id, noteFrom.title, noteFrom.date)
             val noteToFrom = Note(noteFrom.id, noteTo.title, noteTo.date)
             onUpdateTwoNotes(noteFromTo, noteToFrom)
+            recyclerView.adapter!!.notifyItemMoved(viewHolder.adapterPosition, target.adapterPosition)
 //            recyclerView.adapter!!.notifyItemRangeChanged(0, max(viewHolder.adapterPosition, target.adapterPosition), Any())
             return true
         }

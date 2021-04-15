@@ -38,8 +38,7 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
                 )
             },
             onUpdateTwoNotes = { noteFrom, noteTo ->
-                viewModel.updateNote(noteFrom)
-                viewModel.updateNote(noteTo)
+                viewModel.updateTwoNote(noteFrom, noteTo)
             }
     )
 
