@@ -1,6 +1,8 @@
 package io.techmeskills.an02onl_plannerapp.screen.main
 
 import androidx.lifecycle.MutableLiveData
+import io.techmeskills.an02onl_plannerapp.Note
+import io.techmeskills.an02onl_plannerapp.UserAccess
 import io.techmeskills.an02onl_plannerapp.model.dao.NotesDao
 import io.techmeskills.an02onl_plannerapp.support.CoroutineViewModel
 import kotlinx.coroutines.launch
@@ -35,7 +37,7 @@ class MainViewModel(private val notesDao: NotesDao) : CoroutineViewModel() {
 }
 
 
-object AddNote : Note(-1, "", "")
+object AddNote : Note(UserAccess(-1, "addBtn","addBtn"), -1, "")
 
 
 

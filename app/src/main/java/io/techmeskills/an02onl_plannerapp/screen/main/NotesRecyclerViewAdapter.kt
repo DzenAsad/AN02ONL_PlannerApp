@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import io.techmeskills.an02onl_plannerapp.Note
 import io.techmeskills.an02onl_plannerapp.R
 
 
@@ -70,11 +71,11 @@ class NotesRecyclerViewAdapter(
             viewHolder: RecyclerView.ViewHolder,
             target: RecyclerView.ViewHolder
         ): Boolean {
-            val noteFrom = getItem(viewHolder.adapterPosition)
-            val noteTo = getItem(target.adapterPosition)
-            val noteFromTo = Note(noteTo.id, noteFrom.title, noteFrom.date)
-            val noteToFrom = Note(noteFrom.id, noteTo.title, noteTo.date)
-            onUpdateTwoNotes(noteFromTo, noteToFrom)
+//            val noteFrom = getItem(viewHolder.adapterPosition)
+//            val noteTo = getItem(target.adapterPosition)
+//            val noteFromTo = Note(noteTo.id, noteFrom.title, noteFrom.date)
+//            val noteToFrom = Note(noteFrom.id, noteTo.title, noteTo.date)
+//            onUpdateTwoNotes(noteFromTo, noteToFrom)
             recyclerView.adapter!!.notifyItemMoved(viewHolder.adapterPosition, target.adapterPosition)
 //            recyclerView.adapter!!.notifyItemRangeChanged(0, max(viewHolder.adapterPosition, target.adapterPosition), Any())
             return true

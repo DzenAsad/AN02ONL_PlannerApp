@@ -1,7 +1,7 @@
 package io.techmeskills.an02onl_plannerapp.model.dao
 
 import androidx.room.*
-import io.techmeskills.an02onl_plannerapp.screen.main.Note
+import io.techmeskills.an02onl_plannerapp.Note
 
 @Dao
 abstract class NotesDao {
