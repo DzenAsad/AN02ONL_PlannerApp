@@ -35,6 +35,9 @@ abstract class NotesDao {
     @Query("SELECT * FROM notes WHERE user == :id")
     abstract fun getAllUserNotes(id: Long): Flow<List<Note>>
 
+    @Query("SELECT user_id FROM users WHERE first_name == :firstName and last_name == :lastName")
+    abstract fun getUserId(firstName: String, lastName: String): Long
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun saveUser(user: User): Long
 

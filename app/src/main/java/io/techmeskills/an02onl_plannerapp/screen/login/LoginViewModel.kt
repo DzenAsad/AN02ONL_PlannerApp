@@ -14,13 +14,18 @@ class LoginViewModel(private val sharPrefUser: SharPrefUser, private val notesDa
         return sharPrefUser.getSavedUser()
     }
 
-    fun clearSavedUser(){
+    fun clearSavedUser() {
         sharPrefUser.clearSavedUser()
     }
 
-    fun saveUser(user: User){
+    fun saveUser(user: User) {
         launch {
-            sharPrefUser.setSavedUser(user) { notesDao.saveUser(it) }
+            val idUser = notesDao.getUserId(user.firstName, user.lastName)
+            if (idUser != 0L) {
+                sharPrefUser.setSavedUser(user) { idUser }
+            } else {
+                sharPrefUser.setSavedUser(user) { notesDao.saveUser(it) }
+            }
         }
     }
 }

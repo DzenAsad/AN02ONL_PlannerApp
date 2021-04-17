@@ -53,6 +53,8 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
             adapter.submitList(it)
         }
 
+        val toolbar = viewBinding.toolbar
+
 
         val itemTouchHelper = ItemTouchHelper(adapter.simpleItemTouchCallback)
         itemTouchHelper.attachToRecyclerView(viewBinding.recyclerView)
