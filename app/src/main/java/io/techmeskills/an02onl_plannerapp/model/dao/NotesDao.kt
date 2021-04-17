@@ -2,6 +2,9 @@ package io.techmeskills.an02onl_plannerapp.model.dao
 
 import androidx.room.*
 import io.techmeskills.an02onl_plannerapp.Note
+import io.techmeskills.an02onl_plannerapp.User
+import io.techmeskills.an02onl_plannerapp.UserWithNotes
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 abstract class NotesDao {
@@ -24,6 +27,18 @@ abstract class NotesDao {
     @Delete
     abstract fun deleteNotes(notes: List<Note>)
 
-    @Query("SELECT * FROM notes")
-    abstract fun getAllNotes(): List<Note>
+    @Transaction
+    @Query("SELECT * FROM notes, users")
+    abstract fun getAllUserWithNotes(): Flow<List<UserWithNotes>>
+
+    @Transaction
+    @Query("SELECT * FROM notes WHERE user == :id")
+    abstract fun getAllUserNotes(id: Long): Flow<List<Note>>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract fun saveUser(user: User): Long
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract fun saveUser(users: List<User>): List<Long>
+
 }

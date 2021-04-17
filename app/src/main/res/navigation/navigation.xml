@@ -35,16 +35,13 @@
         <action
             android:id="@+id/action_mainFragment_to_addFragment"
             app:destination="@id/addFragment" />
-        <argument
-            android:name="user"
-            app:argType="io.techmeskills.an02onl_plannerapp.UserAccess" />
     </fragment>
 
     <fragment
         android:id="@+id/addFragment"
         android:name="io.techmeskills.an02onl_plannerapp.screen.add.AddFragment"
         android:label="AddFragment"
-        tools:layout="@layout/fragment_add">>
+        tools:layout="@layout/fragment_add">
         <argument
             android:name="note"
             app:argType="io.techmeskills.an02onl_plannerapp.Note"

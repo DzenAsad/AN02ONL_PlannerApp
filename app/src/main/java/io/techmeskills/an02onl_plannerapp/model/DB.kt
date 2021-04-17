@@ -6,12 +6,13 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import io.techmeskills.an02onl_plannerapp.model.dao.NotesDao
 import io.techmeskills.an02onl_plannerapp.Note
-import io.techmeskills.an02onl_plannerapp.UserAccess
+import io.techmeskills.an02onl_plannerapp.User
+import io.techmeskills.an02onl_plannerapp.UserWithNotes
 
 @Database(
     entities = [
         Note::class,
-        UserAccess::class
+        User::class,
     ],
     version = 1,
     exportSchema = false
