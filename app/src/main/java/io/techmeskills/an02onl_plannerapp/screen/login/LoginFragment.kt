@@ -1,5 +1,6 @@
 package io.techmeskills.an02onl_plannerapp.screen.login
 
+import android.net.sip.SipSession
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
@@ -28,25 +29,26 @@ class LoginFragment : NavigationFragment<FragmentLoginBinding>(R.layout.fragment
         viewBinding.buttonGO.setOnClickListener {
             val fn = viewBinding.firstName.text.toString()
             val ln = viewBinding.lastName.text.toString()
-            viewModel.saveUser(User(0, fn, ln)).let {
-                if (it == "done") {
-                    findNavController().navigateSafe(
-                        LoginFragmentDirections.actionLoginFragmentToMainFragment()
-                    )
-                }
+            val wait = viewModel.saveUser(User(0, fn, ln))
+            while (!wait.isCompleted){
+                it.isEnabled = false
+            }
+            it.isEnabled = true
+            findNavController().navigateSafe(
+                LoginFragmentDirections.actionLoginFragmentToMainFragment()
+            )
+
+        }
+    }
+
+
+    override val backPressedCallback: OnBackPressedCallback
+        get() = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().popBackStack()
             }
         }
+
+    override fun onInsetsReceived(top: Int, bottom: Int, hasKeyboard: Boolean) {
     }
-
-
-
-override val backPressedCallback: OnBackPressedCallback
-    get() = object : OnBackPressedCallback(true) {
-        override fun handleOnBackPressed() {
-            findNavController().popBackStack()
-        }
-    }
-
-override fun onInsetsReceived(top: Int, bottom: Int, hasKeyboard: Boolean) {
-}
 }

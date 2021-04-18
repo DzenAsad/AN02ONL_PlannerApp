@@ -5,6 +5,7 @@ import io.techmeskills.an02onl_plannerapp.model.dao.NotesDao
 import io.techmeskills.an02onl_plannerapp.model.sharedPrefs.SharPrefUser
 import io.techmeskills.an02onl_plannerapp.support.CoroutineViewModel
 import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
@@ -16,8 +17,8 @@ class LoginViewModel(private val sharPrefUser: SharPrefUser, private val notesDa
         return sharPrefUser.getSavedUser()
     }
 
-    fun saveUser(user: User): String? {
-        launch {
+    fun saveUser(user: User): Job {
+        val a = launch {
             val idUser = notesDao.getUserId(user.firstName, user.lastName)
             if (idUser != 0L) {
                 sharPrefUser.setSavedUser(user) { idUser }
@@ -25,6 +26,6 @@ class LoginViewModel(private val sharPrefUser: SharPrefUser, private val notesDa
                 sharPrefUser.setSavedUser(user) { notesDao.saveUser(it) }
             }
         }
-        return "done"
+        return a
     }
 }
