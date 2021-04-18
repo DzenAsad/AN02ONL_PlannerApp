@@ -20,6 +20,8 @@ class LoginFragment : NavigationFragment<FragmentLoginBinding>(R.layout.fragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel.getUser()?.let {
+            viewBinding.firstName.setText(it.firstName)
+            viewBinding.lastName.setText(it.lastName)
             findNavController().navigateSafe(
                 LoginFragmentDirections.actionLoginFragmentToMainFragment()
             )
