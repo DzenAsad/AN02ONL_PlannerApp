@@ -14,5 +14,10 @@
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
         <item name="android:windowLightStatusBar">false</item>
         <!-- Customize your theme here. -->
+        <item name="android:datePickerDialogTheme">@color/redFox</item>
+    </style>
+
+    <style name="DialogTheme" parent="Theme.AN02ONL_PlannerApp">
+        <item name="colorAccent">@color/redFox</item>
     </style>
 </resources>

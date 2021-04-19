@@ -8,14 +8,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import io.techmeskills.an02onl_plannerapp.Note
 import io.techmeskills.an02onl_plannerapp.R
+import java.util.*
 
 
 class NotesRecyclerViewAdapter(
     private val onClick: (Note) -> Unit,
     private val onDelete: (Note) -> Unit,
     private val onAdd: () -> Unit,
-    private val onUpdateTwoNotes: (Note, Note) -> Unit
 ) : ListAdapter<Note, RecyclerView.ViewHolder>(NoteAdapterDiffCallback()) {
 
     override fun onCreateViewHolder(
@@ -55,7 +56,7 @@ class NotesRecyclerViewAdapter(
     val simpleItemTouchCallback: ItemTouchHelper.SimpleCallback = object :
         ItemTouchHelper.SimpleCallback(
                 ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT or ItemTouchHelper.DOWN or ItemTouchHelper.UP,
-            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT or ItemTouchHelper.DOWN or ItemTouchHelper.UP
+            ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
         ) {
 
         override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
@@ -70,13 +71,9 @@ class NotesRecyclerViewAdapter(
             viewHolder: RecyclerView.ViewHolder,
             target: RecyclerView.ViewHolder
         ): Boolean {
-            val noteFrom = getItem(viewHolder.adapterPosition)
-            val noteTo = getItem(target.adapterPosition)
-            val noteFromTo = Note(noteTo.id, noteFrom.title, noteFrom.date)
-            val noteToFrom = Note(noteFrom.id, noteTo.title, noteTo.date)
-            onUpdateTwoNotes(noteFromTo, noteToFrom)
-            recyclerView.adapter!!.notifyItemMoved(viewHolder.adapterPosition, target.adapterPosition)
-//            recyclerView.adapter!!.notifyItemRangeChanged(0, max(viewHolder.adapterPosition, target.adapterPosition), Any())
+            val fromPos = viewHolder.adapterPosition
+            val toPos = target.adapterPosition
+            recyclerView.adapter!!.notifyItemMoved(fromPos, toPos)
             return true
         }
 

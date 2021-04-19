@@ -2,7 +2,6 @@ package io.techmeskills.an02onl_plannerapp.screen.main
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Adapter
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -20,26 +19,23 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
     private val viewModel: MainViewModel by viewModel()
 
     private val adapter = NotesRecyclerViewAdapter(
-            onClick = { note ->
-                findNavController().navigateSafe(
-                        MainFragmentDirections.actionMainFragmentToAddFragment(
-                                note
-                        )
+        onClick = { note ->
+            findNavController().navigateSafe(
+                MainFragmentDirections.actionMainFragmentToAddFragment(
+                    note
                 )
-            },
-            onDelete = {
-                viewModel.deleteNote(it)
-            },
-            onAdd = {
-                findNavController().navigateSafe(
-                        MainFragmentDirections.actionMainFragmentToAddFragment(
-                                null
-                        )
+            )
+        },
+        onDelete = {
+            viewModel.deleteNote(it)
+        },
+        onAdd = {
+            findNavController().navigateSafe(
+                MainFragmentDirections.actionMainFragmentToAddFragment(
+                    null
                 )
-            },
-            onUpdateTwoNotes = { noteFrom, noteTo ->
-                viewModel.updateTwoNote(noteFrom, noteTo)
-            }
+            )
+        }
     )
 
 
@@ -53,7 +49,13 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
             adapter.submitList(it)
         }
 
-        viewModel.invalidateList()
+        val toolbar = viewBinding.toolbar
+        toolbar.title = viewModel.getSavedUser()?.firstName
+        toolbar.subtitle = viewModel.getSavedUser()?.lastName
+        toolbar.setNavigationOnClickListener {
+            viewModel.clearSavedUser()
+            findNavController().popBackStack()
+        }
 
         val itemTouchHelper = ItemTouchHelper(adapter.simpleItemTouchCallback)
         itemTouchHelper.attachToRecyclerView(viewBinding.recyclerView)
