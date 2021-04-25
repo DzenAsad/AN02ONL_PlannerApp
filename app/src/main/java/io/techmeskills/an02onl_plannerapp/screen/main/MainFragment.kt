@@ -2,7 +2,6 @@ package io.techmeskills.an02onl_plannerapp.screen.main
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -51,15 +50,19 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
         }
 
         viewModel.currentUser.observe(this.viewLifecycleOwner) {
-            viewBinding.toolbar.title = it.firstName
-            viewBinding.toolbar.subtitle = it.lastName
+            if (it.userId == -1L) {
+                findNavController().popBackStack()
+            } else {
+                viewBinding.toolbar.title = it.firstName
+                viewBinding.toolbar.subtitle = it.lastName
+            }
+
         }
 
 
         viewBinding.toolbar.setNavigationOnClickListener {
-            val z = viewModel.logout()
-            while (!z.isCompleted) {}
-            findNavController().popBackStack()
+            viewModel.logout()
+
         }
 
         val itemTouchHelper = ItemTouchHelper(adapter.simpleItemTouchCallback)
