@@ -69,6 +69,11 @@ class AddFragment : NavigationFragment<FragmentAddBinding>(R.layout.fragment_add
             val date = dateFormatter.parseWithoutException(viewBinding.noteDate.text.toString())?.time
             showDatePickerDialog(date)
         }
+
+        viewBinding.toolbar.setNavigationOnClickListener {
+            findNavController().popBackStack()
+
+        }
     }
 
     private fun DateFormat.parseWithoutException(string: String): Date? {
