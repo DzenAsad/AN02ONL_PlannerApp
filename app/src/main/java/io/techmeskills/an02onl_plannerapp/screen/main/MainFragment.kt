@@ -86,7 +86,7 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
     }
 
     private fun showCloudDialog() {
-        val animation: () -> (Any) = { viewBinding.syncImage.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.sync_anim))}
+        val animation: () -> (Unit) = { viewBinding.syncImage.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.sync_anim))}
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("Cloud storage")
             .setMessage("Chose")
