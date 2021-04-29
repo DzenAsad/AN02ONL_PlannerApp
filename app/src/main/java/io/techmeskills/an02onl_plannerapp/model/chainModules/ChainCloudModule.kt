@@ -18,7 +18,8 @@ class ChainCloudModule(
     suspend fun exportNotes(): Boolean {
         val user = chainUserModule.getCurrentUserFlow().first()
         val notes = chainNoteModule.getCurrentUserNotes()
-        val cloudUser = CloudUser(userId = user.userId, userName = user.firstName + " " + user.lastName)
+        val cloudUser =
+            CloudUser(userId = user.userId, userName = user.firstName + " " + user.lastName)
         val cloudNotes = notes.map { CloudNote(id = it.id, title = it.title, date = it.date) }
         val exportRequestBody =
             ExportNotesRequestBody(cloudUser, chainUserModule.phoneId, cloudNotes)
@@ -32,7 +33,10 @@ class ChainCloudModule(
     @ExperimentalCoroutinesApi
     suspend fun importNotes(): Boolean {
         val user = chainUserModule.getCurrentUserFlow().first()
-        val response = apiInterface.importNotes(userName = user.firstName + " " + user.lastName, chainUserModule.phoneId)
+        val response = apiInterface.importNotes(
+            userName = user.firstName + " " + user.lastName,
+            chainUserModule.phoneId
+        )
         val cloudNotes = response.body() ?: emptyList()
         val notes = cloudNotes.map { cloudNote ->
             Note(
@@ -43,7 +47,7 @@ class ChainCloudModule(
             )
         }
         val currNotes = chainNoteModule.getCurrentUserNotes()
-        chainNoteModule.saveNotes(notes.toMutableList().also {it.removeAll(currNotes)})
+        notes.toMutableList().also { if (it.removeAll(currNotes)) chainNoteModule.saveNotes(it) }
         return response.isSuccessful
     }
 
