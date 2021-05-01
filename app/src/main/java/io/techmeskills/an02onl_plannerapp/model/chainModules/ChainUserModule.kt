@@ -23,27 +23,27 @@ class ChainUserModule(context: Context,
     suspend fun login(firsName: String, lastName: String) {
         withContext(Dispatchers.IO) { //указываем, что метод должен выполниться в IO
             val userId: Long = if (checkUserExists(firsName, lastName).not()) { //проверяем существует ли в базе юзер с таким именем
-                usersDao.saveUser(User(firstName = firsName, lastName = lastName)) //добавляем в базу нового юзера, берем его сгенерированный базой id
+                usersDao.saveUser(User(firsName)) //добавляем в базу нового юзера, берем его сгенерированный базой id
             } else {
-                usersDao.getUserId(firsName, lastName)
+                usersDao.getUserName(firsName)
 
             }
-            settingsStore.setUser(User(userId, firsName, lastName))
+            settingsStore.setUser(User(firsName))
         }
     }
 
     private suspend fun checkUserExists(firsName: String, lastName: String): Boolean {
         return withContext(Dispatchers.IO) {
-            usersDao.getUserId(firsName, lastName) > 0
+            usersDao.getUserName(firsName) > 0
         }
     }
 
     fun checkUserLoggedIn(): Flow<Boolean> =
-        settingsStore.storedUserFlow().map { it.userId >= 0 }.flowOn(Dispatchers.IO)
+        settingsStore.storedUserFlow().map { it.name.isNotEmpty() }.flowOn(Dispatchers.IO)
 
     suspend fun logout() {
         withContext(Dispatchers.IO) {
-            settingsStore.setUser(User(-1, "", ""))
+            settingsStore.setUser(User(""))
         }
     }
 
@@ -53,7 +53,7 @@ class ChainUserModule(context: Context,
 
     @ExperimentalCoroutinesApi
     fun getCurrentUserFlow(): Flow<User> = settingsStore.storedUserFlow().flatMapLatest {
-        usersDao.getById(it.userId)
+        usersDao.getByName(it.name)
     }
 
     @SuppressLint("HardwareIds")

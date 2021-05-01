@@ -10,7 +10,8 @@ open class Note(
         @PrimaryKey(autoGenerate = true) val id: Long = 0L,
         val title: String,
         val date: String,
-        val user: Long = -1L,
+        @ColumnInfo(index = true, name = "user")
+        val user: String,
         val fromCloud: Boolean = false
 ) : Parcelable {
         override fun equals(other: Any?): Boolean {

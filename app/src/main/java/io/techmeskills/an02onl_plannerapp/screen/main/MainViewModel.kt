@@ -55,7 +55,7 @@ class MainViewModel(
 }
 
 
-object AddNote : Note(-1, "", " ", user = -1)
+object AddNote : Note(-1, "", " ", user = "")
 
 
 

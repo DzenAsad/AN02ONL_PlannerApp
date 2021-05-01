@@ -50,6 +50,7 @@ class AddFragment : NavigationFragment<FragmentAddBinding>(R.layout.fragment_add
                         Note(
                             title = viewBinding.noteText.text.toString(),
                             date = viewBinding.noteDate.text.toString(),
+                            user = ""
                         )
                     )
                 }

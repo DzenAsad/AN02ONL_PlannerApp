@@ -19,7 +19,7 @@ class ChainCloudModule(
         val user = chainUserModule.getCurrentUserFlow().first()
         val notes = chainNoteModule.getCurrentUserNotes()
         val cloudUser =
-            CloudUser(userId = user.userId, userName = user.firstName + " " + user.lastName)
+            CloudUser(userName = user.name)
         val cloudNotes = notes.map { CloudNote(id = it.id, title = it.title, date = it.date) }
         val exportRequestBody =
             ExportNotesRequestBody(cloudUser, chainUserModule.phoneId, cloudNotes)
@@ -34,7 +34,7 @@ class ChainCloudModule(
     suspend fun importNotes(): Boolean {
         val user = chainUserModule.getCurrentUserFlow().first()
         val response = apiInterface.importNotes(
-            userName = user.firstName + " " + user.lastName,
+            userName = user.name,
             chainUserModule.phoneId
         )
         val cloudNotes = response.body() ?: emptyList()
@@ -42,7 +42,7 @@ class ChainCloudModule(
             Note(
                 title = cloudNote.title,
                 date = cloudNote.date,
-                user = user.userId,
+                user = user.name,
                 fromCloud = true
             )
         }

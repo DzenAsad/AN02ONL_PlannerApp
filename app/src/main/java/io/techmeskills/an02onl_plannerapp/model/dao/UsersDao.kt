@@ -1,17 +1,14 @@
 package io.techmeskills.an02onl_plannerapp.model.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import io.techmeskills.an02onl_plannerapp.model.Note
+import androidx.room.*
 import io.techmeskills.an02onl_plannerapp.model.User
+import io.techmeskills.an02onl_plannerapp.model.UserWithNotes
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 abstract class UsersDao {
-    @Query("SELECT user_id FROM users WHERE first_name == :firstName and last_name == :lastName")
-    abstract fun getUserId(firstName: String, lastName: String): Long
+    @Query("SELECT name FROM users WHERE name == :name")
+    abstract fun getUserName(name: String): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun saveUser(user: User): Long
@@ -22,8 +19,10 @@ abstract class UsersDao {
     @Query("SELECT * FROM users")
     abstract fun getAllUsers(): Flow<List<User>>
 
-    @Query("SELECT * FROM users WHERE user_id == :userId")
-    abstract fun getById(userId: Long): Flow<User>
+    @Query("SELECT * FROM users WHERE name == :name")
+    abstract fun getByName(name: String): Flow<User>
 
-
+    @Transaction
+    @Query("SELECT * FROM users WHERE name == :name LIMIT 1")
+    abstract fun getAllUserWithNotes(name: String): Flow<UserWithNotes?>
 }

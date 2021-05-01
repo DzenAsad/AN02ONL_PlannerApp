@@ -53,11 +53,11 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
         }
 
         viewModel.currentUser.observe(this.viewLifecycleOwner) {
-            if (it.userId == -1L) {
+            if (it.name.isEmpty()) {
                 findNavController().popBackStack()
             } else {
-                viewBinding.toolbar.title = it.firstName
-                viewBinding.toolbar.subtitle = it.lastName
+                viewBinding.toolbar.title = it.name
+                viewBinding.toolbar.subtitle = it.passwd
             }
 
         }

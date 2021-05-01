@@ -16,11 +16,11 @@ class ChainNoteModule(private val notesDao: NotesDao, private val settingsStore:
     val currentUserNotesFlow: Flow<List<Note>> =
         settingsStore.storedUserFlow()
             .flatMapLatest { user -> //получаем из сеттингов текущий айди юзера
-                notesDao.getAllUserNotes(user.userId) //получаем заметки по айди юзера
+                notesDao.getAllUserNotes(user.name) //получаем заметки по айди юзера
             }
 
     suspend fun getCurrentUserNotes(): List<Note> {
-        return notesDao.getAllUserNotesList(settingsStore.getUser().userId)
+        return notesDao.getAllUserNotesList(settingsStore.getUser().name)
     }
 
     suspend fun setAllNotesSyncWithCloud() {
@@ -35,7 +35,7 @@ class ChainNoteModule(private val notesDao: NotesDao, private val settingsStore:
                 Note(
                     title = note.title,
                     date = note.date,
-                    user = settingsStore.getUser().userId
+                    user = settingsStore.getUser().name
                 )
             )
         }
