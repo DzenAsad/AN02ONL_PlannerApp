@@ -8,22 +8,24 @@ import io.techmeskills.an02onl_plannerapp.model.dao.UsersDao
 import io.techmeskills.an02onl_plannerapp.model.preferences.SettingsStore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
-class ChainUserModule(context: Context,
-                      private val usersDao: UsersDao,
-                      private val settingsStore: SettingsStore) {
+class ChainUserModule(
+    context: Context,
+    private val usersDao: UsersDao,
+    private val settingsStore: SettingsStore,
+) {
 
     val allUserNames = usersDao.getAllUsers()
 
     suspend fun login(firsName: String, lastName: String) {
-        withContext(Dispatchers.IO) { //указываем, что метод должен выполниться в IO
-            val userId: Long = if (checkUserExists(firsName, lastName).not()) { //проверяем существует ли в базе юзер с таким именем
-                usersDao.saveUser(User(firsName)) //добавляем в базу нового юзера, берем его сгенерированный базой id
-            } else {
-                usersDao.getUserName(firsName)
-
+        withContext(Dispatchers.IO) {
+            if (checkUserExists(firsName, lastName).not()) {
+                usersDao.saveUser(User(firsName))
             }
             settingsStore.setUser(User(firsName))
         }
@@ -31,7 +33,7 @@ class ChainUserModule(context: Context,
 
     private suspend fun checkUserExists(firsName: String, lastName: String): Boolean {
         return withContext(Dispatchers.IO) {
-            usersDao.getUserName(firsName) > 0
+            usersDao.getUserName(firsName) != null
         }
     }
 
@@ -44,12 +46,16 @@ class ChainUserModule(context: Context,
         }
     }
 
-    fun getCurrentUser(): Flow<User>{
+    fun getCurrentUser(): Flow<User> {
         return settingsStore.storedUserFlow()
     }
 
-    suspend fun delCurrUser(){
-        usersDao.deleteUser(settingsStore.getUser())
+    suspend fun delCurrUser() {
+        withContext(Dispatchers.IO) {
+            usersDao.deleteUser(settingsStore.getUser())
+            logout()
+        }
+
     }
 
     @ExperimentalCoroutinesApi

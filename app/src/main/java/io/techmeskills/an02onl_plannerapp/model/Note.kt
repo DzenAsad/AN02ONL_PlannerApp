@@ -35,7 +35,6 @@ open class Note(
         result = 31 * result + title.hashCode()
         result = 31 * result + date.hashCode()
         result = 31 * result + user.hashCode()
-        result = 31 * result + fromCloud.hashCode()
         return result
     }
 }
