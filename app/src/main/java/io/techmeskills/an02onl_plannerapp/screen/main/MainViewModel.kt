@@ -46,6 +46,13 @@ class MainViewModel(
         }
     }
 
+    fun delCurrUser() {
+        launch {
+            chainUserModule.logout()
+            chainUserModule.delCurrUser()
+        }
+    }
+
     fun exportNotes() = launch {
         val result = chainCloudModule.exportNotes()
         progressLiveData.postValue(result)

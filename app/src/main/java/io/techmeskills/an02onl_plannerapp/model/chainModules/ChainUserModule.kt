@@ -8,10 +8,7 @@ import io.techmeskills.an02onl_plannerapp.model.dao.UsersDao
 import io.techmeskills.an02onl_plannerapp.model.preferences.SettingsStore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
 
 class ChainUserModule(context: Context,
@@ -49,6 +46,10 @@ class ChainUserModule(context: Context,
 
     fun getCurrentUser(): Flow<User>{
         return settingsStore.storedUserFlow()
+    }
+
+    suspend fun delCurrUser(){
+        usersDao.deleteUser(settingsStore.getUser())
     }
 
     @ExperimentalCoroutinesApi

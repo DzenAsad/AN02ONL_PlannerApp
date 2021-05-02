@@ -10,6 +10,10 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.michaelflisar.dialogs.events.BaseDialogEvent
+import com.michaelflisar.dialogs.events.DialogInputEvent
+import com.michaelflisar.dialogs.setups.DialogInput
+import com.michaelflisar.text.asText
 import io.techmeskills.an02onl_plannerapp.R
 import io.techmeskills.an02onl_plannerapp.databinding.FragmentMainBinding
 import io.techmeskills.an02onl_plannerapp.support.NavigationFragment
@@ -94,11 +98,17 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
             if (it.name.isEmpty()) {
                 findNavController().popBackStack()
             } else {
-                viewBinding.toolbar.title = it.name
-                viewBinding.toolbar.subtitle = it.passwd
+                viewBinding.titleText.text = it.name
             }
 
         }
+
+        viewBinding.titleText.setOnClickListener {
+            showUserEditDialog()
+
+        }
+
+
 
         viewBinding.syncImage.setOnClickListener {
             showCloudDialog()
@@ -124,6 +134,25 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
         viewModel.notesLiveData.value?.let { viewModel.updatePos(it.drop(1)) }
     }
 
+    override fun onDialogResultAvailable(event: BaseDialogEvent): Boolean {
+        return when (event) {
+            is DialogInputEvent -> {
+                event.negClicked().also { if (it)
+                    viewModel.delCurrUser()
+                }
+            }
+            else -> false
+        }
+    }
+
+    private fun showUserEditDialog() {
+        val di =
+            DialogInput.InputField(initialText = viewBinding.titleText.text.toString().asText())
+        DialogInput(input = di, id = 1, title = "Edit User".asText(), negButton = "Delete".asText())
+            .create()
+            .show(this)
+
+    }
 
     private fun showCloudDialog() {
         val animation: () -> (Unit) = {

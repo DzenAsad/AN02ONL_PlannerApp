@@ -1,12 +1,17 @@
 package io.techmeskills.an02onl_plannerapp.model.dao
 
 import androidx.room.*
+import io.techmeskills.an02onl_plannerapp.model.Note
 import io.techmeskills.an02onl_plannerapp.model.User
 import io.techmeskills.an02onl_plannerapp.model.UserWithNotes
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 abstract class UsersDao {
+
+    @Delete
+    abstract fun deleteUser(user: User)
+
     @Query("SELECT name FROM users WHERE name == :name")
     abstract fun getUserName(name: String): Long
 
