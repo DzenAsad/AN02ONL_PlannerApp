@@ -12,8 +12,8 @@ abstract class UsersDao {
     @Delete
     abstract fun deleteUser(user: User)
 
-    @Query("SELECT name FROM users WHERE name == :name")
-    abstract fun getUserName(name: String): String?
+    @Query("SELECT id FROM users WHERE name == :name")
+    abstract fun getUserId(name: String): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun saveUser(user: User): Long

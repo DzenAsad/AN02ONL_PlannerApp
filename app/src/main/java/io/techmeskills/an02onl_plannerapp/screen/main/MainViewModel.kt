@@ -48,6 +48,7 @@ class MainViewModel(
 
     fun delCurrUser() {
         launch {
+//            chainUserModule.logout()
             chainUserModule.delCurrUser()
         }
     }

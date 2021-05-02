@@ -24,16 +24,19 @@ class ChainUserModule(
 
     suspend fun login(firsName: String, lastName: String) {
         withContext(Dispatchers.IO) {
-            if (checkUserExists(firsName, lastName).not()) {
-                usersDao.saveUser(User(firsName))
+            val userId: Long = if (checkUserExists(firsName, lastName).not()) {
+                usersDao.saveUser(User(name = firsName))
+            } else {
+                usersDao.getUserId(firsName)
+
             }
-            settingsStore.setUser(User(firsName))
+            settingsStore.setUser(User(userId, firsName))
         }
     }
 
     private suspend fun checkUserExists(firsName: String, lastName: String): Boolean {
         return withContext(Dispatchers.IO) {
-            usersDao.getUserName(firsName) != null
+            usersDao.getUserId(firsName) > 0
         }
     }
 
@@ -42,7 +45,7 @@ class ChainUserModule(
 
     suspend fun logout() {
         withContext(Dispatchers.IO) {
-            settingsStore.setUser(User(""))
+            settingsStore.setUser(User(name = ""))
         }
     }
 
@@ -53,7 +56,6 @@ class ChainUserModule(
     suspend fun delCurrUser() {
         withContext(Dispatchers.IO) {
             usersDao.deleteUser(settingsStore.getUser())
-            logout()
         }
 
     }

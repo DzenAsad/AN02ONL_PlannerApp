@@ -23,8 +23,9 @@ class SettingsStore(context: Context) {
 
     fun storedUserFlow(): Flow<User> = dataStore.data.map { preferences ->
         User(
+            preferences[longPreferencesKey(ID)] ?: 0,
             preferences[stringPreferencesKey(NAME)] ?: "",
-//            preferences[stringPreferencesKey(PASSWD)] ?: ""
+            preferences[stringPreferencesKey(PASSWD)] ?: ""
         )
     }
 
@@ -32,15 +33,16 @@ class SettingsStore(context: Context) {
 
     suspend fun setUser(user: User) {
         dataStore.edit { preferences ->
+            preferences[longPreferencesKey(ID)] = user.id
             preferences[stringPreferencesKey(NAME)] = user.name
-//            preferences[stringPreferencesKey(PASSWD)] = user.passwd
+            preferences[stringPreferencesKey(PASSWD)] = user.passwd
         }
     }
 
     companion object {
-
+        private const val ID = "id"
         private const val NAME = "name"
-//        private const val PASSWD = "passwd"
+        private const val PASSWD = "passwd"
 
     }
 }
