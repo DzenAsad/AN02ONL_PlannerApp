@@ -53,6 +53,13 @@ class ChainUserModule(
         return settingsStore.storedUserFlow()
     }
 
+    suspend fun updtCurrUser(newName: String) {
+        val curUser = settingsStore.getUser()
+        val newUser = User(curUser.id, newName, curUser.passwd)
+        usersDao.updateUser(newUser)
+        settingsStore.setUser(newUser)
+    }
+
     suspend fun delCurrUser() {
         withContext(Dispatchers.IO) {
             usersDao.deleteUser(settingsStore.getUser())

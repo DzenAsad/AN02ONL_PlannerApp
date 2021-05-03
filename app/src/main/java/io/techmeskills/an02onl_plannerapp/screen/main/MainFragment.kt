@@ -141,6 +141,9 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
                     if (it)
                         viewModel.delCurrUser()
                 }
+                event.posClicked().also {
+                    if (it) viewModel.updtCurrUser(event.data!!.input)
+                }
             }
             else -> false
         }

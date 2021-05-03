@@ -9,6 +9,9 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 abstract class UsersDao {
 
+    @Update
+    abstract fun updateUser(user: User)
+
     @Delete
     abstract fun deleteUser(user: User)
 

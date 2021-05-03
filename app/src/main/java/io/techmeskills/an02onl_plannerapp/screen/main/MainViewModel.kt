@@ -53,6 +53,12 @@ class MainViewModel(
         }
     }
 
+    fun updtCurrUser(newName: String) {
+        launch {
+            chainUserModule.updtCurrUser(newName)
+        }
+    }
+
     fun exportNotes() = launch {
         val result = chainCloudModule.exportNotes()
         progressLiveData.postValue(result)
