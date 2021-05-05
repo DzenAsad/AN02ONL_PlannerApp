@@ -3,6 +3,7 @@ package io.techmeskills.an02onl_plannerapp
 import android.app.Application
 import io.techmeskills.an02onl_plannerapp.model.DB
 import io.techmeskills.an02onl_plannerapp.model.DatabaseConstructor
+import io.techmeskills.an02onl_plannerapp.model.alarm.MyAlarmManager
 import io.techmeskills.an02onl_plannerapp.model.cloud.ApiInterface
 import io.techmeskills.an02onl_plannerapp.model.modules.AlarmModule
 import io.techmeskills.an02onl_plannerapp.model.modules.CloudModule
@@ -30,7 +31,7 @@ class PlannerApp : Application() {
     private val viewModels = module {
         viewModel { LoginViewModel(get()) }
         viewModel { MainViewModel(get(), get(), get()) }
-        viewModel { AddViewModel(get()) }
+        viewModel { AddViewModel(get(), get()) }
     }
 
 
@@ -45,6 +46,7 @@ class PlannerApp : Application() {
         factory { UserModule(get(), get(), get()) }
         factory { NoteModule(get(), get(), get()) }
         factory { CloudModule(get(), get(), get()) }
+        factory { AlarmModule(get(), get()) }
     }
 
     private val cloudModule = module {
@@ -52,6 +54,7 @@ class PlannerApp : Application() {
     }
 
     private val alarmModule = module {
-        single { AlarmModule(get(), get()) }
+        single { MyAlarmManager() }
     }
+
 }

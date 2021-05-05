@@ -8,18 +8,24 @@ import kotlinx.coroutines.launch
 
 class AddViewModel(
     private val noteModule: NoteModule,
-    private val alarmModule: AlarmModule,
+    private val alarmModule: AlarmModule
 ) : CoroutineViewModel() {
+
+    init {
+        alarmModule.cancelAlarm()
+    }
 
     fun addNewNote(note: Note) {
         launch {
             noteModule.saveNote(note)
+            alarmModule.setAlarm(note)
         }
     }
 
     fun updateNote(note: Note) {
         launch {
             noteModule.updateNote(note)
+            alarmModule.setAlarm(note)
         }
     }
 

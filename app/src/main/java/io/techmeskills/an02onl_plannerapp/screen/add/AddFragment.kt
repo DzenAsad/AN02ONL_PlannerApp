@@ -29,7 +29,7 @@ class AddFragment : NavigationFragment<FragmentAddBinding>(R.layout.fragment_add
     override val viewBinding: FragmentAddBinding by viewBinding()
     private val viewModel: AddViewModel by viewModel()
 
-    private val dateFormatter = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+    private val dateFormatter = SimpleDateFormat("dd.MM.yyyy HH:MM", Locale.getDefault())
     private val args: AddFragmentArgs by navArgs()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
