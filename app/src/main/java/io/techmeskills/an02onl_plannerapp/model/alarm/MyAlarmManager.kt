@@ -26,17 +26,17 @@ class MyAlarmManager {
             PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
         alarmManager.set(AlarmManager.RTC_WAKEUP, alarmTime, pendingIntent)
 
-        val builder = NotificationCompat.Builder(context, message)
-        builder.setAutoCancel(true)
-            .setDefaults(Notification.DEFAULT_ALL)
-            .setWhen(System.currentTimeMillis())
-            .setSmallIcon(R.mipmap.sym_def_app_icon)
-            .setContentTitle("Note")
-            .setDefaults(Notification.DEFAULT_LIGHTS or Notification.DEFAULT_SOUND)
-
-        val notificationManager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.notify(1, builder.build())
+//        val builder = NotificationCompat.Builder(context, message)
+//        builder.setAutoCancel(true)
+//            .setDefaults(Notification.DEFAULT_ALL)
+//            .setWhen(System.currentTimeMillis())
+//            .setSmallIcon(R.mipmap.sym_def_app_icon)
+//            .setContentTitle("Note")
+//            .setDefaults(Notification.DEFAULT_LIGHTS or Notification.DEFAULT_SOUND)
+//
+//        val notificationManager =
+//            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+//        notificationManager.notify(1, builder.build())
     }
 
     fun cancelAlarm(context: Context) {
