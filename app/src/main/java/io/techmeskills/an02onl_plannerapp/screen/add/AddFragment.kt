@@ -93,19 +93,6 @@ class AddFragment : NavigationFragment<FragmentAddBinding>(R.layout.fragment_add
     }
 
     private fun showDatePickerDialog(date: Long?) {
-//        val builder: MaterialDatePicker.Builder<Long> =
-//        MaterialDatePicker.Builder.datePicker().setSelection(date)
-//
-//        val constraintsBuilder = CalendarConstraints.Builder()
-//        builder.setCalendarConstraints(constraintsBuilder.build())
-//
-//        val picker: MaterialDatePicker<*> = builder.build()
-//        picker.show(childFragmentManager, picker.toString())
-//
-//        picker.addOnPositiveButtonClickListener {
-//            val pickedDate = Date(picker.selection as Long)
-//            viewBinding.noteDate.setText(dateFormatter.format(pickedDate))
-//        }
 
         DialogDateTime(2)
 

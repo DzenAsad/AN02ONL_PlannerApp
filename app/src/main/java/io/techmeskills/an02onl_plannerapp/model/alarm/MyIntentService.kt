@@ -1,12 +1,13 @@
 package io.techmeskills.an02onl_plannerapp.model.alarm
 
+import android.app.IntentService
 import android.content.Intent
 import androidx.core.app.JobIntentService
 
-class MyIntentService : JobIntentService() {
+class MyIntentService : IntentService("MyIntentService") {
 
-    override fun onHandleWork(intent: Intent) {
-        intent.apply {
+    override fun onHandleIntent(intent: Intent?) {
+        intent?.apply {
             when (intent.action) {
                 ACTION_SEND_TEST_MESSAGE -> {
                     val message = getStringExtra(EXTRA_MESSAGE)
