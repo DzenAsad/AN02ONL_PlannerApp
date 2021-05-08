@@ -20,10 +20,11 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name="io.techmeskills.an02onl_plannerapp.model.alarm.MyIntentService"
-            android:enabled="true"
-            android:stopWithTask="false"/>
+        <receiver android:name=".ConnectionReceiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 
