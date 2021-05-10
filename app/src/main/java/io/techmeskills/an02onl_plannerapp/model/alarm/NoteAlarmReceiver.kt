@@ -9,6 +9,7 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import io.techmeskills.an02onl_plannerapp.R
+import io.techmeskills.an02onl_plannerapp.model.Note
 
 class NoteAlarmReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
@@ -27,22 +28,29 @@ class NoteAlarmReceiver : BroadcastReceiver() {
             val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             nm.createNotificationChannel(mChannel)
         }
+        //get Note from intent
+        val noteTitle = intent.getStringExtra("ALARM_MSG")
+        val noteId = intent.getLongExtra("ALARM_ID", -1)
 
-        val message = intent.getStringExtra("ALARM_MSG")  //get info from intent
-
-        //Create notification
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+            .addAction(NoteIntent.makeDeleteAction(context, noteId))
             .setSmallIcon(R.drawable.ic_baseline_note_24)
             .setContentTitle("Напоминание")
-            .setContentText(message)
+            .setContentText(noteTitle)
             .setAutoCancel(true)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
 
         //Push notification
         with(NotificationManagerCompat.from(context)) {
             notify(NOTIFICATION_ID, builder.build())
             // посылаем уведомление
         }
+
+
+
+
+
     }
 
     companion object {

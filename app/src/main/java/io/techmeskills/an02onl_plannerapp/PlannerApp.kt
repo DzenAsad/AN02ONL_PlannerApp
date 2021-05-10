@@ -4,6 +4,7 @@ import android.app.Application
 import io.techmeskills.an02onl_plannerapp.model.DB
 import io.techmeskills.an02onl_plannerapp.model.DatabaseConstructor
 import io.techmeskills.an02onl_plannerapp.model.alarm.NoteAlarmManager
+import io.techmeskills.an02onl_plannerapp.model.alarm.NoteAlarmService
 import io.techmeskills.an02onl_plannerapp.model.cloud.ApiInterface
 import io.techmeskills.an02onl_plannerapp.model.modules.AlarmModule
 import io.techmeskills.an02onl_plannerapp.model.modules.CloudModule
@@ -31,7 +32,7 @@ class PlannerApp : Application() {
     private val viewModels = module {
         viewModel { LoginViewModel(get()) }
         viewModel { MainViewModel(get(), get(), get()) }
-        viewModel { AddViewModel(get(), get()) }
+        viewModel { AddViewModel(get()) }
     }
 
 
@@ -44,7 +45,7 @@ class PlannerApp : Application() {
 
     private val settingsStore = module {  //создаем репозитории
         factory { UserModule(get(), get(), get()) }
-        factory { NoteModule(get(), get(), get()) }
+        factory { NoteModule(get(), get(), get(), get()) }
         factory { CloudModule(get(), get(), get()) }
         factory { AlarmModule(get()) }
     }

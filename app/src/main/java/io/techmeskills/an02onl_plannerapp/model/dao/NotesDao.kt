@@ -34,6 +34,10 @@ abstract class NotesDao {
     @Query("SELECT * FROM notes WHERE user == :name")
     abstract fun getAllUserNotesList(name: String): List<Note>
 
+    @Transaction
+    @Query("SELECT * FROM notes WHERE id == :id")
+    abstract fun getNoteById(id: Long): Note?
+
     @Query("UPDATE notes SET fromCloud = 1")
     abstract fun setAllNotesSyncWithCloud()
 

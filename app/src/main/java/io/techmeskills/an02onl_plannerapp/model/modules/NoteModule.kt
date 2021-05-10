@@ -15,6 +15,7 @@ class NoteModule(
     private val notesDao: NotesDao,
     private val usersDao: UsersDao,
     private val settingsStore: SettingsStore,
+    private val alarmModule: AlarmModule
 ) {
 
     @ExperimentalCoroutinesApi
@@ -37,11 +38,17 @@ class NoteModule(
 
     suspend fun saveNote(note: Note) {
         withContext(Dispatchers.IO) {
-            notesDao.saveNote(
+            val tmp = Note(
+                title = note.title,
+                date = note.date,
+                user = settingsStore.getUser().name
+            )
+            alarmModule.setAlarm(
                 Note(
-                    title = note.title,
-                    date = note.date,
-                    user = settingsStore.getUser().name
+                    id = notesDao.saveNote(tmp),
+                    title = tmp.title,
+                    date = tmp.date,
+                    user = tmp.user
                 )
             )
         }
@@ -70,6 +77,14 @@ class NoteModule(
         withContext(Dispatchers.IO) {
             notes.forEachIndexed { index, note -> note.pos = index }
             notesDao.updateNotes(notes)
+        }
+    }
+
+    suspend fun deleteNoteById(noteId: Long) {
+        withContext(Dispatchers.IO) {
+            notesDao.getNoteById(noteId)?.let {
+                notesDao.deleteNote(it)
+            }
         }
     }
 }

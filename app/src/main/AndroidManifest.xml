@@ -24,6 +24,8 @@
             android:name=".model.alarm.NoteAlarmReceiver"
             android:enabled="true"
             android:exported="true" />
+
+        <service android:name=".model.alarm.NoteAlarmService" />
     </application>
 
 
