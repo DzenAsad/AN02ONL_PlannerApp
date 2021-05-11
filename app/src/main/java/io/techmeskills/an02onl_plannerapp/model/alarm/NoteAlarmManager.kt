@@ -10,8 +10,10 @@ class NoteAlarmManager(private val context: Context) {
     //Alarm manager
     private val alarmManager = getSystemService(context, AlarmManager::class.java) as AlarmManager
     private val noteIntent: NoteIntent = NoteIntent()
+
+    //Set Alarm
     fun setAlarm(alarmTime: Long, note: Note) {
-        //Set Alarm
+
         alarmManager.setExact(AlarmManager.RTC, alarmTime, noteIntent.buildIntent(context, note))
 //        Toast.makeText(context, "Alarm is set", Toast.LENGTH_SHORT).show()
 

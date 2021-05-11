@@ -21,9 +21,9 @@ class NoteModule(
     @ExperimentalCoroutinesApi
     val currentUserNotesFlow: Flow<List<Note>> =
         settingsStore.storedUserFlow()
-            .flatMapLatest { user -> //получаем из сеттингов текущий айди юзера
+            .flatMapLatest { user ->
                 usersDao.getUserWithNotesFlow(user.name)
-                    .map { it?.notes ?: emptyList() } //получаем заметки по айди юзера
+                    .map { it?.notes ?: emptyList() }
             }
 
     suspend fun getCurrentUserNotes(): List<Note> {

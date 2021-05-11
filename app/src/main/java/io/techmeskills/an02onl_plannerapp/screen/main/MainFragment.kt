@@ -1,10 +1,12 @@
 package io.techmeskills.an02onl_plannerapp.screen.main
 
+import ConnectionLiveData
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.isInvisible
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -67,6 +69,14 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
 
         }
 
+        ConnectionLiveData(requireContext()).observe(this.viewLifecycleOwner) {
+            if (it.not()) {
+                viewBinding.syncImage.isInvisible = true
+            } else {
+                viewBinding.syncImage.isInvisible = false
+            }
+        }
+
         viewBinding.titleText.setOnClickListener {
             showUserEditDialog()
 
@@ -76,6 +86,7 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
 
         viewBinding.syncImage.setOnClickListener {
             showCloudDialog()
+
         }
 
         viewBinding.toolbar.setNavigationOnClickListener {

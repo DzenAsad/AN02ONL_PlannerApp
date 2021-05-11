@@ -1,22 +1,29 @@
 package io.techmeskills.an02onl_plannerapp.screen.main
 
+import android.content.Context
+import android.net.ConnectivityManager
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.liveData
 import io.techmeskills.an02onl_plannerapp.model.Note
-import io.techmeskills.an02onl_plannerapp.model.modules.AlarmModule
 import io.techmeskills.an02onl_plannerapp.model.modules.CloudModule
 import io.techmeskills.an02onl_plannerapp.model.modules.NoteModule
 import io.techmeskills.an02onl_plannerapp.model.modules.UserModule
 import io.techmeskills.an02onl_plannerapp.support.CoroutineViewModel
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
+
 
 class MainViewModel(
     private val userModule: UserModule,
     private val noteModule: NoteModule,
     private val cloudModule: CloudModule,
 ) : CoroutineViewModel() {
+
 
     val notesLiveData = noteModule.currentUserNotesFlow.flowOn(Dispatchers.IO).map {
         listOf(AddNote) + it
@@ -69,7 +76,6 @@ class MainViewModel(
         val result = cloudModule.importNotes()
         progressLiveData.postValue(result)
     }
-
 
 }
 
