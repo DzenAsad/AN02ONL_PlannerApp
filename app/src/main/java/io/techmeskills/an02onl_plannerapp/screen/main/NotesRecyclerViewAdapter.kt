@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -61,6 +62,7 @@ class NotesRecyclerViewAdapter(
         private val tvTitle = itemView.findViewById<TextView>(R.id.tvTitle)
         private val tvDate = itemView.findViewById<TextView>(R.id.tvDate)
         private val ivCloud = itemView.findViewById<ImageView>(R.id.syncImage)
+        private val ivAlarm = itemView.findViewById<ImageView>(R.id.alarmImage)
 
         init {
             itemView.setOnClickListener {
@@ -72,6 +74,7 @@ class NotesRecyclerViewAdapter(
             tvTitle.text = item.title
             tvDate.text = item.date
             ivCloud.isVisible = item.fromCloud
+            ivAlarm.isVisible = item.alarmEnabled
         }
     }
 
@@ -102,6 +105,6 @@ class NoteAdapterDiffCallback : DiffUtil.ItemCallback<Note>() {
     }
 
     override fun areContentsTheSame(oldItem: Note, newItem: Note): Boolean {
-        return oldItem.date == newItem.date && oldItem.title == newItem.title && oldItem.fromCloud == newItem.fromCloud
+        return oldItem.date == newItem.date && oldItem.title == newItem.title && oldItem.fromCloud == newItem.fromCloud && oldItem.alarmEnabled == newItem.alarmEnabled
     }
 }

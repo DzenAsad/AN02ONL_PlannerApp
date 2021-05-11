@@ -1,11 +1,7 @@
 package io.techmeskills.an02onl_plannerapp.screen.main
 
-import android.content.Context
-import android.net.ConnectivityManager
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.liveData
 import io.techmeskills.an02onl_plannerapp.model.Note
 import io.techmeskills.an02onl_plannerapp.model.modules.CloudModule
 import io.techmeskills.an02onl_plannerapp.model.modules.NoteModule
@@ -80,7 +76,7 @@ class MainViewModel(
 }
 
 
-object AddNote : Note(0, "", " ", user = "", pos = -1)
+object AddNote : Note(0, "", " ", user = "", pos = 0)
 
 
 

@@ -70,11 +70,7 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
         }
 
         ConnectionLiveData(requireContext()).observe(this.viewLifecycleOwner) {
-            if (it.not()) {
-                viewBinding.syncImage.isInvisible = true
-            } else {
-                viewBinding.syncImage.isInvisible = false
-            }
+            viewBinding.syncImage.isInvisible = it.not()
         }
 
         viewBinding.titleText.setOnClickListener {
