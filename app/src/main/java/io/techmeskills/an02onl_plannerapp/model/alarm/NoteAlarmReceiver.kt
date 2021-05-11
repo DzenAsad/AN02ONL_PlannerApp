@@ -39,6 +39,7 @@ class NoteAlarmReceiver : BroadcastReceiver() {
 
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
             .addAction(noteIntent.makeDeleteAction(context, noteId))
+            .addAction(noteIntent.makePostponeAction(context, noteId))
             .setSmallIcon(R.drawable.ic_baseline_note_24)
             .setContentTitle("Напоминание")
             .setContentText(noteTitle)

@@ -21,11 +21,16 @@ class NoteAlarmService : Service(), KoinComponent {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         intent?.let {
             val noteId =
-                it.getLongExtra("NoteDeleteId", -1)
+                it.getLongExtra(NoteIntent.NOTE_CURRENT_ID, -1)
             when (it.action) {
-                "NoteDelete" -> {
+                NoteIntent.NOTE_DELETE -> {
                     GlobalScope.launch {
                         noteModule.deleteNoteById(noteId)
+                    }
+                }
+                NoteIntent.NOTE_POSTPONE -> {
+                    GlobalScope.launch {
+                        noteModule.postponeNote(noteId)
                     }
                 }
                 else -> Unit

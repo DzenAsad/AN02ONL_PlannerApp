@@ -5,9 +5,6 @@ import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import androidx.lifecycle.LiveData
-import org.koin.core.component.KoinApiExtension
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
 
 
 class ConnectionLiveData(private val context: Context) : LiveData<Boolean>() {
@@ -31,10 +28,7 @@ class ConnectionLiveData(private val context: Context) : LiveData<Boolean>() {
                 val isConnected = activeNetwork != null &&
                         activeNetwork.isConnectedOrConnecting
                 if (isConnected) {
-                    when (activeNetwork!!.type) {
-                        ConnectivityManager.TYPE_WIFI -> postValue(true)
-                        ConnectivityManager.TYPE_MOBILE -> postValue(true)
-                    }
+                    postValue(true)
                 } else {
                     postValue(false)
                 }

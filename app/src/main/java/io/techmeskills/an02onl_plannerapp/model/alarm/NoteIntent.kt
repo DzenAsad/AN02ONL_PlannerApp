@@ -15,8 +15,8 @@ class NoteIntent {
         //put our info in intent
 //        intent.extras?.putParcelable("ALARM_NOTE", note)
 //        intent.putExtra("ALARM_NOTE", note)
-        intent.putExtra("ALARM_MSG", note.title)
-        intent.putExtra("ALARM_ID", note.id)
+        intent.putExtra(ALARM_MSG, note.title)
+        intent.putExtra(ALARM_ID, note.id)
         //PendingIntent
         return PendingIntent.getBroadcast(context, 1221, intent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
@@ -24,8 +24,8 @@ class NoteIntent {
     fun makeDeleteAction(context: Context, noteId: Long): NotificationCompat.Action {
         val deleteIntent =
             Intent(context.applicationContext, NoteAlarmService::class.java)
-        deleteIntent.action = "NoteDelete"
-        deleteIntent.putExtra("NoteDeleteId", noteId)
+        deleteIntent.action = NOTE_DELETE
+        deleteIntent.putExtra(NOTE_CURRENT_ID, noteId)
 
         val deletePendingIntent = PendingIntent.getService(
             context.applicationContext,
@@ -39,5 +39,36 @@ class NoteIntent {
             "Delete",
             deletePendingIntent
         ).build()
+    }
+
+    fun makePostponeAction(context: Context, noteId: Long): NotificationCompat.Action {
+        val deleteIntent =
+            Intent(context.applicationContext, NoteAlarmService::class.java)
+        deleteIntent.action = NOTE_POSTPONE
+        deleteIntent.putExtra(NOTE_CURRENT_ID, noteId)
+
+        val postPendingIntent = PendingIntent.getService(
+            context.applicationContext,
+            1222,
+            deleteIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        return NotificationCompat.Action.Builder(
+            R.drawable.ic_baseline_note_24,
+            "Postpone",
+            postPendingIntent
+        ).build()
+    }
+
+    companion object{
+        const val ALARM_MSG = "ALARM_MSG"
+        const val ALARM_ID = "ALARM_ID"
+        const val NOTE_CURRENT_ID = "NoteId"
+        //Delete
+        const val NOTE_DELETE = "NoteDelete"
+
+        //Postpone
+        const val NOTE_POSTPONE = "NoteDelete"
     }
 }

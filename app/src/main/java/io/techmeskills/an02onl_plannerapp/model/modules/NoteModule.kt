@@ -62,7 +62,7 @@ class NoteModule(
         withContext(Dispatchers.IO) {
             notesDao.saveNotes(notes)
             notes.forEach {
-                if (it.alarmEnabled){
+                if (it.alarmEnabled) {
                     alarmModule.setAlarm(it)
                 }
             }
@@ -75,7 +75,7 @@ class NoteModule(
                 alarmModule.cancelAlarm(it)
             }
             notesDao.updateNote(note)
-            if (note.alarmEnabled){
+            if (note.alarmEnabled) {
                 alarmModule.setAlarm(note)
             }
         }
@@ -85,6 +85,22 @@ class NoteModule(
         withContext(Dispatchers.IO) {
             notesDao.deleteNote(note)
             alarmModule.cancelAlarm(note)
+        }
+    }
+
+    suspend fun postponeNote(noteId: Long) {
+        withContext(Dispatchers.IO) {
+            notesDao.getNoteById(noteId)?.let { note ->
+                val tmp = Note(
+                    id = note.id,
+                    title = note.title,
+                    date = note.date + 60000,
+                    user = note.user,
+                    alarmEnabled = note.alarmEnabled,
+                    fromCloud = note.fromCloud
+                )
+                updateNote(tmp)
+            }
         }
     }
 
