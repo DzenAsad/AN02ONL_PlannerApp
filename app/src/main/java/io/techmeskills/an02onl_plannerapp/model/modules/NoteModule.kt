@@ -10,6 +10,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.*
 
 class NoteModule(
     private val notesDao: NotesDao,
@@ -91,10 +93,12 @@ class NoteModule(
     suspend fun postponeNote(noteId: Long) {
         withContext(Dispatchers.IO) {
             notesDao.getNoteById(noteId)?.let { note ->
+                val dateFormatter = SimpleDateFormat("dd.MM.yyyy HH:mm", Locale.getDefault())
+                val newTime = dateFormatter.parse(note.date)!!.time + 60000
                 val tmp = Note(
                     id = note.id,
                     title = note.title,
-                    date = note.date + 60000,
+                    date = dateFormatter.format(newTime),
                     user = note.user,
                     alarmEnabled = note.alarmEnabled,
                     fromCloud = note.fromCloud

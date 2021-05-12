@@ -42,15 +42,15 @@ class NoteIntent {
     }
 
     fun makePostponeAction(context: Context, noteId: Long): NotificationCompat.Action {
-        val deleteIntent =
+        val postponeIntent =
             Intent(context.applicationContext, NoteAlarmService::class.java)
-        deleteIntent.action = NOTE_POSTPONE
-        deleteIntent.putExtra(NOTE_CURRENT_ID, noteId)
+        postponeIntent.action = NOTE_POSTPONE
+        postponeIntent.putExtra(NOTE_CURRENT_ID, noteId)
 
         val postPendingIntent = PendingIntent.getService(
             context.applicationContext,
             1222,
-            deleteIntent,
+            postponeIntent,
             PendingIntent.FLAG_UPDATE_CURRENT
         )
 
@@ -69,6 +69,6 @@ class NoteIntent {
         const val NOTE_DELETE = "NoteDelete"
 
         //Postpone
-        const val NOTE_POSTPONE = "NoteDelete"
+        const val NOTE_POSTPONE = "NotePostpone"
     }
 }

@@ -1,30 +1,19 @@
 package io.techmeskills.an02onl_plannerapp.screen.add
 
-import android.app.DatePickerDialog
-import android.app.SharedElementCallback
-import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.View
-import android.widget.DatePicker
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.core.util.Pair
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.google.android.material.datepicker.CalendarConstraints
-import com.google.android.material.datepicker.MaterialDatePicker
-import com.michaelflisar.dialogs.classes.DialogStyle
 import com.michaelflisar.dialogs.events.BaseDialogEvent
 import com.michaelflisar.dialogs.events.DialogDateTimeEvent
-import com.michaelflisar.dialogs.events.DialogInputEvent
 import com.michaelflisar.dialogs.setups.DialogDateTime
-import com.michaelflisar.dialogs.setups.DialogInput
 import io.techmeskills.an02onl_plannerapp.R
 import io.techmeskills.an02onl_plannerapp.databinding.FragmentAddBinding
 import io.techmeskills.an02onl_plannerapp.model.Note
 import io.techmeskills.an02onl_plannerapp.support.NavigationFragment
-import org.koin.android.scope.currentScope
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.DateFormat
 import java.text.ParseException
@@ -75,6 +64,9 @@ class AddFragment : NavigationFragment<FragmentAddBinding>(R.layout.fragment_add
             viewBinding.noteText.setText(note.title)
             viewBinding.noteDate.setText(note.date)
             viewBinding.switchAlarm.isChecked = note.alarmEnabled
+            if (note.date.isNotEmpty()) {
+                viewBinding.switchAlarm.isClickable = true
+            }
         }
 
         viewBinding.noteDate.setOnClickListener {
@@ -110,6 +102,7 @@ class AddFragment : NavigationFragment<FragmentAddBinding>(R.layout.fragment_add
                     if (it) viewBinding.noteDate.setText(
                         (dateFormatter.format(event.data!!.date.timeInMillis))
                     )
+                    viewBinding.switchAlarm.isClickable = true
                 }
             }
             else -> false

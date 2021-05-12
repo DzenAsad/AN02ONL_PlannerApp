@@ -1,13 +1,12 @@
 package io.techmeskills.an02onl_plannerapp.screen.main
 
 import ConnectionLiveData
+import android.graphics.ColorFilter
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
-import android.widget.RemoteViews
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.core.view.isInvisible
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -71,7 +70,12 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
         }
 
         ConnectionLiveData(requireContext()).observe(this.viewLifecycleOwner) {
-            viewBinding.syncImage.isInvisible = it.not()
+            viewBinding.syncImage.isClickable = it
+            if (it.not()) {
+                viewBinding.syncImage.setColorFilter(R.color.grayInactive)
+            } else {
+                viewBinding.syncImage.clearColorFilter()
+            }
         }
 
         viewBinding.titleText.setOnClickListener {
@@ -101,9 +105,11 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
 
         viewModel.progressEditUser.observe(this.viewLifecycleOwner) { success ->
             if (success.not()) {
-                Toast.makeText(requireContext(),
+                Toast.makeText(
+                    requireContext(),
                     "User with tis name already exist!",
-                    Toast.LENGTH_LONG)
+                    Toast.LENGTH_LONG
+                )
                     .show()
             }
         }

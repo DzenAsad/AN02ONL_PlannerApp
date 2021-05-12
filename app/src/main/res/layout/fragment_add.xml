@@ -43,6 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:text="ALARM"
+            android:clickable="false"
             android:textColor="@color/white" />
     </androidx.appcompat.widget.Toolbar>
 
