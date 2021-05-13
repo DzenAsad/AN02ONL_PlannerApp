@@ -46,7 +46,7 @@ class NoteAlarmReceiver : BroadcastReceiver() {
 
 
         //Push notification
-        nm.notify(0, builder.build())
+        nm.notify(2332, builder.build())
 //        with(NotificationManagerCompat.from(context)) {
 //            notify(NOTIFICATION_ID, builder.build())
 //            // посылаем уведомление

@@ -1,6 +1,8 @@
 package io.techmeskills.an02onl_plannerapp.model.alarm
 
+import android.app.NotificationManager
 import android.app.Service
+import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import io.techmeskills.an02onl_plannerapp.model.modules.NoteModule
@@ -20,6 +22,7 @@ class NoteAlarmService : Service(), KoinComponent {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         intent?.let {
+            val nm = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             val noteId =
                 it.getLongExtra(NoteIntent.NOTE_CURRENT_ID, -1)
             when (it.action) {
@@ -27,11 +30,13 @@ class NoteAlarmService : Service(), KoinComponent {
                     GlobalScope.launch {
                         noteModule.deleteNoteById(noteId)
                     }
+                    nm.cancel(2332)
                 }
                 NoteIntent.NOTE_POSTPONE -> {
                     GlobalScope.launch {
                         noteModule.postponeNote(noteId)
                     }
+                    nm.cancel(2332)
                 }
                 else -> Unit
             }
