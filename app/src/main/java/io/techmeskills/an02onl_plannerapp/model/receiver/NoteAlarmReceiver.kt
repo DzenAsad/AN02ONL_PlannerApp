@@ -46,7 +46,7 @@ class NoteAlarmReceiver : BroadcastReceiver() {
 
 
         //Push notification
-        nm.notify(2332, builder.build())
+        nm.notify(NOTIFICATION_ID, builder.build())
 //        with(NotificationManagerCompat.from(context)) {
 //            notify(NOTIFICATION_ID, builder.build())
 //            // посылаем уведомление
@@ -59,7 +59,7 @@ class NoteAlarmReceiver : BroadcastReceiver() {
     }
 
     companion object {
-        const val NOTIFICATION_ID = 0
+        const val NOTIFICATION_ID = 2332
         const val CHANNEL_ID = "MyApp_channel"
         const val MY_APP_CHANNEL_NAME = "MyApp"
     }

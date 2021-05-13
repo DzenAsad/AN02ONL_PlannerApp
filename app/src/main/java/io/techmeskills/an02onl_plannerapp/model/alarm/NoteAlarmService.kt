@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import io.techmeskills.an02onl_plannerapp.model.modules.NoteModule
+import io.techmeskills.an02onl_plannerapp.model.receiver.NoteAlarmReceiver
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinApiExtension
@@ -30,13 +31,13 @@ class NoteAlarmService : Service(), KoinComponent {
                     GlobalScope.launch {
                         noteModule.deleteNoteById(noteId)
                     }
-                    nm.cancel(2332)
+                    nm.cancel(NoteAlarmReceiver.NOTIFICATION_ID)
                 }
                 NoteIntent.NOTE_POSTPONE -> {
                     GlobalScope.launch {
                         noteModule.postponeNote(noteId)
                     }
-                    nm.cancel(2332)
+                    nm.cancel(NoteAlarmReceiver.NOTIFICATION_ID)
                 }
                 else -> Unit
             }
