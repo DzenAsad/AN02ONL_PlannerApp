@@ -63,7 +63,8 @@ class NoteModule(
     suspend fun saveNotes(notes: List<Note>) {
         withContext(Dispatchers.IO) {
             notesDao.saveNotes(notes)
-            notes.forEach {
+            val updatedNotes = getCurrentUserNotes()
+            updatedNotes.forEach {
                 if (it.alarmEnabled) {
                     alarmModule.setAlarm(it)
                 }
