@@ -35,10 +35,10 @@
         <action
             android:id="@+id/action_mainFragment_to_addFragment"
             app:destination="@id/addFragment"
-            app:enterAnim="@anim/slide_in_right"
+            app:enterAnim="@anim/sync_anim"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:popExitAnim="@anim/sync_anim" />
     </fragment>
 
     <fragment

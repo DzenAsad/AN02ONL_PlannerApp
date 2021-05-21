@@ -163,7 +163,7 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
     }
 
     override fun onInsetsReceived(top: Int, bottom: Int, hasKeyboard: Boolean) {
-        viewBinding.toolbar.setPadding(0, top, 0, 0)
+        viewBinding.appBar.setPadding(0, top, 0, 0)
         viewBinding.recyclerView.setPadding(0, 0, 0, bottom)
     }
 
