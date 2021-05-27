@@ -18,6 +18,8 @@ import io.techmeskills.an02onl_plannerapp.databinding.FragmentMainBinding
 import io.techmeskills.an02onl_plannerapp.support.NavigationFragment
 import io.techmeskills.an02onl_plannerapp.support.navigateSafe
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_main) {
@@ -47,10 +49,12 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
         super.onViewCreated(view, savedInstanceState)
 
 
+
         viewBinding.recyclerView.adapter = adapter
 
         viewModel.notesLiveData.observe(this.viewLifecycleOwner) {
             adapter.submitList(it)
+//            viewBinding.rvFoxPicker.setDate(it.flatMap { listOf(it.date) })
         }
 
         val simpleItemTouchCallback = MyItemTouchCallback(swipeDelete = {
@@ -67,7 +71,7 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
 
         }
 
-        viewModel.connectionLiveData.observe(this.viewLifecycleOwner) {
+        viewModel.connectionLiveDataReceiver.observe(this.viewLifecycleOwner) {
             viewBinding.syncImage.isClickable = it
             viewBinding.syncImage.isActivated = !it.not()
         }
@@ -132,7 +136,9 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
 
     private fun showUserEditDialog() {
         val di =
-            DialogInput.InputField(initialText = viewBinding.toolbarLayout.title.toString().asText())
+            DialogInput.InputField(
+                initialText = viewBinding.toolbarLayout.title.toString().asText()
+            )
         DialogInput(input = di, id = 1, title = "Edit User".asText(), negButton = "Delete".asText())
             .create()
             .show(this)

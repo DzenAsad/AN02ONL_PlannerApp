@@ -41,6 +41,11 @@
                 android:src="@drawable/toolbar_fox"
                 app:layout_collapseMode="parallax" />
 
+            <com.example.datepickerfox.FoxPicker
+                android:id="@+id/rvFoxPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"

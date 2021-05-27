@@ -10,6 +10,7 @@ import io.techmeskills.an02onl_plannerapp.model.receiver.ConnectionLiveDataRecei
 import io.techmeskills.an02onl_plannerapp.support.CoroutineViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -19,7 +20,7 @@ class MainViewModel(
     private val userModule: UserModule,
     private val noteModule: NoteModule,
     private val cloudModule: CloudModule,
-    private val connectionLiveDataReceiver: ConnectionLiveDataReceiver,
+    val connectionLiveDataReceiver: ConnectionLiveDataReceiver,
 ) : CoroutineViewModel() {
 
 
@@ -30,8 +31,6 @@ class MainViewModel(
     val progressLiveData = MutableLiveData<Boolean>()
 
     val progressEditUser = MutableLiveData<Boolean>()
-
-    val connectionLiveData = connectionLiveDataReceiver
 
     val currentUser = userModule.getCurrentUser().flowOn(Dispatchers.IO).asLiveData()
 
