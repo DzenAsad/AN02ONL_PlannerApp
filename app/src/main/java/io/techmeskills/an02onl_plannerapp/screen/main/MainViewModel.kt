@@ -1,7 +1,7 @@
 package io.techmeskills.an02onl_plannerapp.screen.main
 
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asLiveData
+import android.widget.ListAdapter
+import androidx.lifecycle.*
 import io.techmeskills.an02onl_plannerapp.model.Note
 import io.techmeskills.an02onl_plannerapp.model.modules.CloudModule
 import io.techmeskills.an02onl_plannerapp.model.modules.NoteModule
@@ -10,31 +10,31 @@ import io.techmeskills.an02onl_plannerapp.model.receiver.ConnectionLiveDataRecei
 import io.techmeskills.an02onl_plannerapp.support.CoroutineViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import okhttp3.internal.notify
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class MainViewModel(
     private val userModule: UserModule,
     private val noteModule: NoteModule,
     private val cloudModule: CloudModule,
-    private val connectionLiveDataReceiver: ConnectionLiveDataReceiver,
+    val connectionLiveDataReceiver: ConnectionLiveDataReceiver,
 ) : CoroutineViewModel() {
-
 
     val notesLiveData = noteModule.currentUserNotesFlow.flowOn(Dispatchers.IO).map {
         listOf(AddNote) + it
     }.asLiveData()
 
+    val sortedLiveData = MutableLiveData<List<Note>>()
+
     val progressLiveData = MutableLiveData<Boolean>()
 
     val progressEditUser = MutableLiveData<Boolean>()
 
-    val connectionLiveData = connectionLiveDataReceiver
-
     val currentUser = userModule.getCurrentUser().flowOn(Dispatchers.IO).asLiveData()
-
 
     fun deleteNote(note: Note) {
         launch {
@@ -76,6 +76,15 @@ class MainViewModel(
         val result = cloudModule.importNotes()
         progressLiveData.postValue(result)
     }
+
+    fun sortByDate(date: Date) = launch {
+        val dateFormatter = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+        sortedLiveData.postValue(noteModule.currentUserNotesFlow.flowOn(Dispatchers.IO).map {
+            listOf(AddNote) + it.filter { it.date.isNotBlank() && ((dateFormatter.parse(it.date) == date))  }
+        }.first())
+    }
+
+
 
 }
 

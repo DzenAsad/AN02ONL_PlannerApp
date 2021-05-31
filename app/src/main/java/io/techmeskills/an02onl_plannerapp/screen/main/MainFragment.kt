@@ -1,11 +1,11 @@
 package io.techmeskills.an02onl_plannerapp.screen.main
 
-import io.techmeskills.an02onl_plannerapp.model.receiver.ConnectionLiveDataReceiver
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.lifecycle.asFlow
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import by.kirich1409.viewbindingdelegate.viewBinding
@@ -18,7 +18,9 @@ import io.techmeskills.an02onl_plannerapp.R
 import io.techmeskills.an02onl_plannerapp.databinding.FragmentMainBinding
 import io.techmeskills.an02onl_plannerapp.support.NavigationFragment
 import io.techmeskills.an02onl_plannerapp.support.navigateSafe
+import okhttp3.internal.notify
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 
 class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_main) {
@@ -48,9 +50,18 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
         super.onViewCreated(view, savedInstanceState)
 
 
+
         viewBinding.recyclerView.adapter = adapter
 
         viewModel.notesLiveData.observe(this.viewLifecycleOwner) {
+            viewModel.sortedLiveData.postValue(it)
+            val tmp = it.flatMap { listOf(it.date) }
+            viewBinding.rvSomeFox.setDate(tmp) {
+                viewModel.sortByDate(it)
+            }
+        }
+
+        viewModel.sortedLiveData.observe(this.viewLifecycleOwner){
             adapter.submitList(it)
         }
 
@@ -63,19 +74,19 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
             if (it.name.isEmpty()) {
                 findNavController().popBackStack()
             } else {
-                viewBinding.titleText.text = it.name
+                viewBinding.toolbarLayout.title = it.name
             }
 
         }
 
-        viewModel.connectionLiveData.observe(this.viewLifecycleOwner) {
+        viewModel.connectionLiveDataReceiver.observe(this.viewLifecycleOwner) {
             viewBinding.syncImage.isClickable = it
             viewBinding.syncImage.isActivated = !it.not()
         }
 
-        viewBinding.titleText.setOnClickListener {
+        viewBinding.toolbarLayout.setOnLongClickListener {
             showUserEditDialog()
-
+            true
         }
 
 
@@ -109,11 +120,7 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
             }
         }
 
-    }
 
-    override fun onPause() {
-        super.onPause()
-        viewModel.notesLiveData.value?.let { viewModel.updatePos(it.drop(1)) }
     }
 
     override fun onDialogResultAvailable(event: BaseDialogEvent): Boolean {
@@ -132,7 +139,9 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
 
     private fun showUserEditDialog() {
         val di =
-            DialogInput.InputField(initialText = viewBinding.titleText.text.toString().asText())
+            DialogInput.InputField(
+                initialText = viewBinding.toolbarLayout.title.toString().asText()
+            )
         DialogInput(input = di, id = 1, title = "Edit User".asText(), negButton = "Delete".asText())
             .create()
             .show(this)
@@ -163,7 +172,7 @@ class MainFragment : NavigationFragment<FragmentMainBinding>(R.layout.fragment_m
     }
 
     override fun onInsetsReceived(top: Int, bottom: Int, hasKeyboard: Boolean) {
-        viewBinding.toolbar.setPadding(0, top, 0, 0)
+        viewBinding.appBar.setPadding(0, top, 0, 0)
         viewBinding.recyclerView.setPadding(0, 0, 0, bottom)
     }
 
